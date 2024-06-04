@@ -7,7 +7,6 @@ on:
         description: Who to Greet
         required: true
         default: 'World'
-        type: string
 
 jobs:
   say-hello:
@@ -22,4 +21,4 @@ jobs:
           who-to-greet: ${{ inputs.who-to-greet }}
       - name: Get the output time
         id: time
-        run: 'echo ::notice file=greeting.yml::The time was: ${{ steps.print.outputs.time }}.'
+        run: 'echo ::notice file=greeting.yml,line=25::The time was: ${{ steps.print.outputs.time }}.'
