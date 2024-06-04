@@ -12,7 +12,7 @@
 This action prints `Hello, World!` or `Hello, <who-to-greet>!` to the log. To
 learn how this action was built, see [Creating a Docker container action][tutorial].
 
-[tutorial]: https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action.
+[tutorial]: https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 
 ## :genie: Use this Template
 
@@ -106,16 +106,15 @@ You will need to:
 ### :white_check_mark: Test the script
 
 First try out the [`entrypoint.sh`][] script. You'll need to set the
-environment variables `INPUT_WHO_TO_GREET` and `GITHUB_OUTPUT`.
+environment variable `INPUT_WHO_TO_GREET`.
 
 When you run the script, the `::notice` workflow command will be printed, and a
-file will be called `output-file` (or whatever you set the `GITHUB_OUTPUT`
-environment variable to).
+file will created called `output-file`.
 
 It should look something like this:
 
 ```bash
-$ INPUT_WHO_TO_GREET="Mona Lisa Octocat" GITHUB_OUTPUT="output-file" ./entrypoint.sh
+$ INPUT_WHO_TO_GREET="Mona Lisa Octocat" ./entrypoint.sh
 ::notice file=entrypoint.sh,line=7::Hello, Mona Lisa Octocat!
 ```
 
@@ -130,9 +129,8 @@ time=Mon Jun  3 19:03:50 MDT 2024
 
 > [!NOTE]
 >
-> The environment variable GITHUB_OUTPUT is needed when running the script
-> or Docker container locally, but it is provided automatically when the
-> the action is run.
+> The environment variable GITHUB_OUTPUT is provided automatically when the
+> the action is run, but set to `output-file` for local runs.
 
 ### :white_check_mark: Build the image
 
@@ -178,39 +176,26 @@ can be passed along to your script.
 You can pass them on the command-line using the `--env` option.
 
 ```bash
-$ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" --env GITHUB_OUTPUT="output-file" --name greeting-container greeting-image
+$ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" --name greeting-container greeting-image
 ::notice file=entrypoint.sh,line=7::Hello, Mona Lisa Octocat!
 ```
 
-That can be a little hard to read though, so instead you can save them the
-variables to local file named something like `.env` that looks like this:
+That can be a little annoying to type every time though, so instead you can
+save them the variables to local file named something like `.docker-env` like
+this:
 
 ```bash
-INPUT_WHO_TO_GREET="Mona Lisa Octocat"
-GITHUB_OUTPUT="output-file"
+echo 'INPUT_WHO_TO_GREET="Mona Lisa Octocat"' > .docker-env
 ```
 
 Then use the `--env-file` option to tell docker about it.
 
 ```bash
-$ docker run --env-file .env --name greeting-container greeting-image
+$ docker run --env-file .docker-env --name greeting-container greeting-image
 ::notice file=entrypoint.sh,line=7::Hello, Mona Lisa Octocat!
 ```
 
 :sparkles: Congratulations! Your container run worked.
-
-> [!NOTE]
->
-> Sometimes these files contain sensitive information, so it is recommended to
-> use a hidden filename like `.env` which you don't commit to your repository.
-> Add the filename to `.gitignore` to be sure.
->
-> You can copy the example [`env`](./env) file, then modify it to suit your needs:
->
-> ```bash
-> cp env .env
-> ```
->
 
 This container ran, then stopped as soon as the job was done. That means it
 won't be shown in the container list by default. If you want to confirm that it
@@ -267,9 +252,10 @@ on:
   workflow_dispatch:
     inputs:
       who-to-greet:
-        description: Who to greet in the log
+        description: Who to Greet
         required: true
         default: 'World'
+        type: string
 
 jobs:
   say-hello:
@@ -283,15 +269,16 @@ jobs:
         with:
           who-to-greet: ${{ inputs.who-to-greet }}
       - name: Get the output time
-        run: echo "The time was ${{ steps.print.outputs.time }}."
+        id: time
+        run: 'echo ::notice file=greeting.yml::The time was: ${{ steps.print.outputs.time }}.'
 ```
 
-This will create a new workflow with two jobs.
+This will create a new workflow "Greeting Workflow" with one job, "Say Hello".
 
 > [!IMPORTANT]
 >
-> You'll want to change `main` to a to a specific commit SHA or version tag for a
-> real public action. For example:
+> You'll want to change **`main`** to a to a specific commit SHA or version tag
+> for a real public action. For example:
 >
 > - greeting-docker-action@e76147da8e5c81eaf017dede5645551d4b94427b
 > - greeting-docker-action@v1.2.3
@@ -302,18 +289,23 @@ This will create a new workflow with two jobs.
 
 Run the workflow from the [**Actions**](actions) tab.
 
-1. [ ] Commit and push your changes.
-1. [ ] From your repository, click the **Actions** tab, and select the
+1. [x] Commit and push your changes.
+1. [x] From your repository, click the **Actions** tab, and select the
        **"Greeting Workflow"**.
-1. [ ] At the top of the list of runs click **Run workflow**. Change the who to
-       greet text if you want then click **Run Workflow**.
-1. [ ] When it starts you will see a **Greeting Workflow** run in the list.
-       Click it.
-1. [ ] Under **Annotations** you will see the `"Hello Mona the Octocat"` message.
-1. [ ] Click **Say Hello**.
-1. [ ] Click **Print to Log**. At the bottom, you will see the
-       `"Hello Mona the Octocat"` message.
-1. [ ] Click **Get the output time**. You should see a message like
-       `"The time was Mon Jun  3 19:03:50 MDT 2024"`
+1. [x] At the top of the list of runs click **Run workflow**. Change the
+       name in the text box if you want then click **Run Workflow**.
+1. [x] When it starts you will see a new **Greeting Workflow** run at the top
+       of the list with a spinning yellow circle. Click it.
+1. [x] Under **Annotations** you should see two notices
+
+    ```text
+    Say Hello: entrypoint.sh#L7
+    Hello, all the way over there!
+    ```
+
+    ```text
+    Say Hello: greeting.yml
+    The time was: Tue Jun 4 08:00:07 UTC 2024.
+    ```
 
 :tada: Congratulations, you have finished your GitHub Docker Action! :tada:

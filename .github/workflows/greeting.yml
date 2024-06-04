@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       who-to-greet:
-        description: Who to greet in the log
+        description: Who to Greet
         required: true
         default: 'World'
         type: string
@@ -21,4 +21,5 @@ jobs:
         with:
           who-to-greet: ${{ inputs.who-to-greet }}
       - name: Get the output time
-        run: echo "The time was ${{ steps.print.outputs.time }}."
+        id: time
+        run: 'echo ::notice file=greeting.yml::The time was: ${{ steps.print.outputs.time }}.'
