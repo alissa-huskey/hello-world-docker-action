@@ -139,7 +139,7 @@ time=Mon Jun  3 19:03:50 MDT 2024
 > [!NOTE]
 >
 > You'll need to have a reasonably modern version of [Docker][docker] handy
-> (e.g. docker engine version 20 or later). 
+> (e.g. docker engine version 20 or later).
 >
 > Also, make sure that the [Docker daemon][daemon] is running!
 
@@ -147,7 +147,7 @@ First you will need to build the image that will be used to create your
 container, in this case named `greeting-image`.
 
 ```bash
-$ docker build --tag greeting-image .
+docker build --tag greeting-image .
 ```
 
 You can confirm that the new image was created by running `docker image ls`.
@@ -175,7 +175,7 @@ docker run --env NAME="VALUE" --name CONTAINER_NAME IMAGE_NAME
 You'll need to provide environment variables when you run the container so they
 can be passed along to your script.
 
-You can pass them on the command line using the `--env` option.
+You can pass them on the command-line using the `--env` option.
 
 ```bash
 $ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" --env GITHUB_OUTPUT="output-file" --name greeting-container greeting-image
@@ -207,7 +207,10 @@ $ docker run --env-file .env --name greeting-container greeting-image
 >
 > You can copy the example [`env`](./env) file, then modify it to suit your needs:
 >
->     cp env .env
+> ```bash
+> cp env .env
+> ```
+>
 
 This container ran, then stopped as soon as the job was done. That means it
 won't be shown in the container list by default. If you want to confirm that it
@@ -224,29 +227,29 @@ CONTAINER ID   IMAGE            COMMAND                    CREATED          STAT
 Once you've confirmed everything works, you won't need the image or container
 files anymore. You can delete them to free up disk space.
 
-```
-$ docker rm greeting-container
-$ docker rmi greeting-image
+```bash
+docker rm greeting-container
+docker rmi greeting-image
 ```
 
 Confirm they're gone with `docker image ls` and `docker ps`.
 
-```
+```bash
 $ docker ps --all
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-```
+```bash
 $ docker images --all
 REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
 ```
 
-## :robot: Watch it go!
+## :robot: Watch it go
 
 It's time to give your action a whirl. You'll need to:
 
-* [ ] Create a workflow File.
-* [ ] Run the job.
+- [ ] Create a workflow File.
+- [ ] Run the job.
 
 ### :memo: Create a Workflow File
 
@@ -255,7 +258,7 @@ A workflow file how people use your action, so you'll need to create one too.
 In `.github/workflows/` create a new file called `greeting.yml` using the
 template below. Be sure to replace `USERNAME` with your GitHub username.
 
-`greeting.yml`:
+[`.github/workflows/greeting.yml`][greeting.yml]:
 
 ```yaml
 name: Greeting Workflow
@@ -267,7 +270,6 @@ on:
         description: Who to greet in the log
         required: true
         default: 'World'
-        type: string
 
 jobs:
   say-hello:
@@ -294,18 +296,24 @@ This will create a new workflow with two jobs.
 > - greeting-docker-action@e76147da8e5c81eaf017dede5645551d4b94427b
 > - greeting-docker-action@v1.2.3
 
+[greeting.yml]: .github/workflows/greeting.yml
+
 ### :white_check_mark: Run the Job
 
 Run the workflow from the [**Actions**](actions) tab.
 
 1. [ ] Commit and push your changes.
-1. [ ] From your repository, click the **Actions** tab, and select the **"Greeting Workflow"**.
+1. [ ] From your repository, click the **Actions** tab, and select the
+       **"Greeting Workflow"**.
 1. [ ] At the top of the list of runs click **Run workflow**. Change the who to
        greet text if you want then click **Run Workflow**.
-1. [ ] When it starts you will see a **Greeting Workflow** run in the list. Click it.
+1. [ ] When it starts you will see a **Greeting Workflow** run in the list.
+       Click it.
 1. [ ] Under **Annotations** you will see the `"Hello Mona the Octocat"` message.
 1. [ ] Click **Say Hello**.
-1. [ ] Click **Print to Log**. At the bottom, you will see the `"Hello Mona the Octocat"` message.
-1. [ ] Click **Get the output time**. You should see a message like `"The time was Mon Jun  3 19:03:50 MDT 2024"`
+1. [ ] Click **Print to Log**. At the bottom, you will see the
+       `"Hello Mona the Octocat"` message.
+1. [ ] Click **Get the output time**. You should see a message like
+       `"The time was Mon Jun  3 19:03:50 MDT 2024"`
 
 :tada: Congratulations, you have finished your GitHub Docker Action! :tada:

@@ -5,3 +5,10 @@ MD004:
 # Ordered list item prefix
 MD029:
   style: one
+
+# Link fragments should be valid [Context: "[`action.yml`](#page_facing_up-actionyml)"]
+MD051: false
+
+# Line length
+MD013:
+  code_blocks: false

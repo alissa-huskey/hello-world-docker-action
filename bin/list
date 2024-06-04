@@ -5,10 +5,10 @@
 
 # Print colored header text followed by a line
 header() {
-  local char='-'
-  printf '\n\e[33m%s\e[0m\n' "$*"
-  eval "printf -- '${char}%.0s' {1..100}"
-  echo
+	local char='-'
+	printf '\n\e[33m%s\e[0m\n' "$*"
+	eval "printf -- '${char}%.0s' {1..100}"
+	echo
 }
 
 header Containers
