@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# Locally build the docker image.
+# prune all stopped containers and untagged images
+#
+
+docker container prune
+docker images --filter dangling=true --quiet | xargs docker rmi

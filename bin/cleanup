@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#
+# Remove docker container and image.
+#
+
+docker rm greeting-container
+docker rmi greeting-image

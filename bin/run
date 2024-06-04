@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Locally run the docker image.
+#
+
+# GITHUB_OUTPUT is needed when running locally, but
+# it is provided automaticly when run via the action.
+#
+
+docker run                                      \
+  --env INPUT_WHO_TO_GREET="Mona Lisa Octocat"  \
+  --env GITHUB_OUTPUT="output-file"             \
+  --name greeting-container                     \
+  greeting-image

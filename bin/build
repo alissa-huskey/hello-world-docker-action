@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# Locally build the docker image.
+#
+
+docker build --tag greeting-image .

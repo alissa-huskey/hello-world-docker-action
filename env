@@ -1,0 +1,17 @@
+# Environment variables needed to run the docker container
+# 
+# Copy this to a hidden file:
+#
+#     cp env .env
+#
+# Then change the text where it says `NAME HERE` and `FILENAME HERE` to the
+# values you want.
+#
+# Then pass to `docker run` with the `--env-file` option.
+#
+#     docker run --env-file .env
+#
+
+
+INPUT_WHO_TO_GREET="NAME HERE"
+GITHUB_OUTPUT="FILENAME HERE"
