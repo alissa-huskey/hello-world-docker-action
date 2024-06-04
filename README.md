@@ -14,7 +14,7 @@ learn how this action was built, see [Creating a Docker container action][tutori
 
 [tutorial]: https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action.
 
-## Use this Template
+## :genie: Use this Template
 
 To create your own action you can use this repository as a template! Just
 follow the instructions below:
@@ -70,14 +70,17 @@ essentially boots up a container and executes the [`entrypoint.sh`][] script.
 
 The [`entrypoint.sh`][] script is executed by the Docker container at runtime.
 It does whatever work it needs to in the container, issues commands to the
-action, and writes output variables to a a special file referred to by
+action, and writes output variables to a special file referred to by
 the environment variable `GITHUB_OUTPUT`.
 
 In this case the script prints a workflow command beginning with `::notice`,
 and writes the `time` output variable to the `$GITHUB_OUTPUT` file to be used
 by the action later.
 
+See the [GitHub Docs on workflow commands][commands] for more info.
+
 [`entrypoint.sh`]: ./entrypoint.sh
+[commands]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
 
 ## :crossed_fingers: Local Testing
 
@@ -247,6 +250,8 @@ It's time to give your action a whirl. You'll need to:
 
 ### :memo: Create a Workflow File
 
+A workflow file how people use your action, so you'll need to create one too.
+
 In `.github/workflows/` create a new file called `greeting.yml` using the
 template below. Be sure to replace `USERNAME` with your GitHub username.
 
@@ -270,13 +275,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print to Log
-        id: print-to-log
+      - name: Print Greeting
+        id: print
         uses: USERNAME/hello-world-docker-action@main
         with:
           who-to-greet: ${{ inputs.who-to-greet }}
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.print.outputs.time }}."
 ```
 
 This will create a new workflow with two jobs.
@@ -291,15 +296,16 @@ This will create a new workflow with two jobs.
 
 ### :white_check_mark: Run the Job
 
-Run the workflow from the [Actions tab](actions).
+Run the workflow from the [**Actions**](actions) tab.
 
 1. [ ] Commit and push your changes.
 1. [ ] From your repository, click the **Actions** tab, and select the **"Greeting Workflow"**.
-1. [ ] Under **Jobs** or in the visualization graph, click **A job to say hello**.
-1. [ ] Click the **Hello world** action step. 
-1. [ ] To see the timestamp, click **Get the output time**.
-
-If all goes well you should see you should see` "Hello Mona the Octocat"`
-or the name you used for the `who-to-greet` input printed in the log.
+1. [ ] At the top of the list of runs click **Run workflow**. Change the who to
+       greet text if you want then click **Run Workflow**.
+1. [ ] When it starts you will see a **Greeting Workflow** run in the list. Click it.
+1. [ ] Under **Annotations** you will see the `"Hello Mona the Octocat"` message.
+1. [ ] Click **Say Hello**.
+1. [ ] Click **Print to Log**. At the bottom, you will see the `"Hello Mona the Octocat"` message.
+1. [ ] Click **Get the output time**. You should see a message like `"The time was Mon Jun  3 19:03:50 MDT 2024"`
 
 :tada: Congratulations, you have finished your GitHub Docker Action! :tada:
