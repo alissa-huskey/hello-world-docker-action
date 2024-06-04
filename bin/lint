@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Lint the codebase on docker using super-linter.
+#
+
+# LOGIN REQUIRED
+#
+# Use a GitHub personal access token:
+# echo ${GHCR_TOKEN} | docker login ghcr.io --username="${GHCR_USER}" --password-stdin
+
+# MACOS ARM/MX ISSUES
+# https://github.com/super-linter/super-linter/issues/5070
+#
+# Use the following options if you are on arm.
+#
+# --platform linux/x86_64 \
+# --env SHELL=/bin/bash
+
+# LOGGING OPTIONS
+#
+# --env LOG_FILE=tmp/super-linter.log \
+# --env CREATE_LOG_FILE=true \
+# --env LOG_LEVEL=NOTICE \   # set to DEBUG if needed
+
+# RUNNING LOCALLY
+# https://github.com/super-linter/super-linter/blob/main/docs/run-linter-locally.md
+#
+# --volume ${PWD}:/tmp/lint \
+# --env RUN_LOCAL=true \
+
+docker run \
+	--env RUN_LOCAL=true \
+	--env DEFAULT_BRANCH=main \
+	--env LOG_LEVEL=NOTICE \
+	--env SHELL=/bin/bash \
+	--platform linux/amd64 \
+	--volume "${PWD}:/tmp/lint" \
+	--rm \
+	"ghcr.io/super-linter/super-linter:slim-v6.6.0"

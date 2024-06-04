@@ -4,3 +4,5 @@ skip-check:
   - CKV_DOCKER_2
   # Ensure that a user for the container has been created
   - CKV_DOCKER_3
+  # GitHub Actions workflow_dispatch inputs MUST be empty.
+  - CKV_GHA_7

@@ -216,13 +216,15 @@ $ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" --name greeting-contai
 When you provide the `INPUT_WHO_TO_GREET` environment variable to Docker at runtime
 it is passed along to `entrypoint.sh`.
 
-In the command above you used the  `--env` option. If you have to pass more than one variable, you can include the `--env` option multiple times.
+In the command above you used the  `--env` option. If you have to pass more
+than one variable, you can include the `--env` option multiple times.
 
 ```bash
 docker run --env VAR="VALUE" --env OTHER_VAR="OTHER VALUE" --name CONTAINER_NAME IMAGE_NAME
 ```
 
-As you can see, that can quickly get out of hand when the variables start to add up.
+As you can see, that can quickly get out of hand when the variables start to
+add up.
 
 Instead you can create a file named something like `.docker-env` then use the
 `--env-file` option to tell docker about it.
@@ -279,7 +281,7 @@ It's time to give your action a whirl. You'll need to:
 
 - [ ] [Create a workflow File](#memo-create-a-workflow-file):
       The file you need to use your new action.
-- [ ] [Run the job](#white_check_mark-run-the-job): 
+- [ ] [Run the job](#white_check_mark-run-the-job):
       Trigger the action and look at the results.
 
 ### :memo: Create a Workflow File
@@ -361,8 +363,8 @@ You can run the workflow on the GitHub.com web interface from the
 
 #### Using `gh` CLI
 
-If you use the [`gh`][gh] CLI tool, you can easily run your workflow job from the
-command line.
+If you use the [`gh`][gh] command-line tool, you can easily run your workflow
+job from the command line.
 
 1. [x] Commit and push your changes.
 1. [x] Run the workflow:

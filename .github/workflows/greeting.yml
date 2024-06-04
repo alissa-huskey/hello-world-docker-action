@@ -8,6 +8,8 @@ on:
         required: true
         default: 'World'
 
+permissions: {}
+
 jobs:
   say-hello:
     name: Say Hello
